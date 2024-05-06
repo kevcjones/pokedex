@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { trpc } from "../api/api";
-import { Button } from "../components/Button";
 
 export const Route = createFileRoute("/posts")({
   component: AboutComponent,
@@ -33,12 +32,13 @@ function AboutComponent() {
             ))}
           </ul>
         )}
-        <Button
+        <button
           disabled={allPostsQuery.isFetching}
           onClick={() => allPostsQuery.refetch()}
+          className="btn"
         >
-          Refetch
-        </Button>
+          Button
+        </button>
       </div>
     </div>
   );
