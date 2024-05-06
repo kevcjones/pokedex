@@ -1,17 +1,38 @@
-# Awesome Client Side Rendering + API
+# Pokedex
 
-Check out the demo:  
-https://tanstack-router-poc.pages.dev/
+This is just a sandbox account to play with some new technology. Goals of the project:
 
-This repo demonstrates what we believe to be the best developer experience available today for React web apps that have a backend for frontend (BFF) API (an API that only exists to serve this particular web app), but do not need server-side rendering (SSR). Such web apps are usually those that require authentication to access any part of the site. Examples can include business to business (B2B) web apps, internal tools, or private data entry web apps (like a fitness tracker).
+- continue learning cloudflare workers / pages
+- use at least D1 or R2 as part of the mini project
+- Pick up some tRPC along the way
 
-# Why do we need this?
+# Why this stack
 
-A large portion of development on the web does not benefit from SSR (such as no need for search engine optimisation (SEO), no need for HTTP streaming, etc). Client-side rendering (CSR) tooling has come on significantly since the inception of [vite](https://vitejs.dev/), but unfortunately the community still has no answer for connecting such a web app to an API, except by treating them as two separate entities.
+I've borrowed this stack from a friend Mark as a proposed sound alternative to the mainstream stuff i'm spending a lot of time with e.g. Remix and NextJS. Not that i'm that profienct at those in any way but there's something annoying me lately with the SSR life.
 
-As such, many developers give up on CSR and end up building with SSR for no reason other than needing an API for their front-end (FE), without wanting the complexity of 2 deployments to manage. This makes hosting much more complex, wastes CPU on unnecessary renders (which, like all unnecessary energy expenditure, impacts the global climate), requires the developer to support rendering on both the server and the client, and generally complicates the developer experience.
+# What will this app be
 
-This repository sets out to demonstrate that there is a better way. It's time that SSR once again became a tool that you only reach for when you truly need it.
+Not sure yet while i write this though i know i've got my hands on some pokemon data and images so in classic style i'll probably make a pokedex and go fro there. My son's big into his pokemon so i could see him appreciating his own pokedex app.
+
+His wishlist:
+
+- "Look at all the pokemon"
+- "Search for pokemon - i don't know their names though"
+- "Pick my favourite pokemon"
+- "Play with any pokemon" - battle pokemon against eachother (simulate battles)
+
+## Breaking that down
+
+### version 1 - basic pokedex
+
+- [] Storage of the pokemon data (R2?)
+- [] An API to find one or more pokemon (by name, by number, by type), paginated results
+- [] UI: A pokemon list page, show the pokemon as cards in results
+- [] UI: A pokemon viewer page, show one pokemon with full details
+- [] UI: A favourites list (localstorage only for now)
+- [] UI: A vs page where stats are compared - select -> search -> pick for both sides
+
+---
 
 # What this repository offers
 
@@ -69,7 +90,7 @@ With that said, if you believe another cloud provider offers a better alternativ
 
 ### Using NodeJS instead
 
-If "scale to zero" doesn't matter to you, you don't mind losing the ability to have preview environments that last forever, or you just don't want to use Cloudflare, a NodeJS process might be a better fit for you, which you could run on almost any cloud provider you like, or even self-host. This project can be horizontally (multiple instances running in parallel to handle traffic) or vertically scaled (bigger CPU + RAM on your NodeJS instance(s)), so you can use a load balancer and a set of scaling rules to handle virtually any volume of traffic. 
+If "scale to zero" doesn't matter to you, you don't mind losing the ability to have preview environments that last forever, or you just don't want to use Cloudflare, a NodeJS process might be a better fit for you, which you could run on almost any cloud provider you like, or even self-host. This project can be horizontally (multiple instances running in parallel to handle traffic) or vertically scaled (bigger CPU + RAM on your NodeJS instance(s)), so you can use a load balancer and a set of scaling rules to handle virtually any volume of traffic.
 
 Such a server that runs tRPC for `/api` endpoints and serves static files for the rest gets a great deal of the same benefits as this repository does, but without the need for Cloudflare. If this sounds like a perfect fit for you, you should check out Vite's [middleware mode](https://vitejs.dev/config/server-options.html#server-middlewaremode) and the [tRPC Express adapter](https://trpc.io/docs/server/adapters/express).
 
@@ -125,9 +146,9 @@ This application largely has 3 modes:
 - Preview (deployments used by PR previews)
 - Dev (running locally on a dev machine)
 
-When creating / connecting to your own resource(s), you'll need to start by deciding how you want to interact with it in each of these different modes. For example, if you're connecting to an [S3 bucket on AWS](https://aws.amazon.com/s3/), you might want a dev bucket, a preview bucket, and a production bucket. 
+When creating / connecting to your own resource(s), you'll need to start by deciding how you want to interact with it in each of these different modes. For example, if you're connecting to an [S3 bucket on AWS](https://aws.amazon.com/s3/), you might want a dev bucket, a preview bucket, and a production bucket.
 
-This guide is not going to help you deploy / manage your custom resource(s), but we do recommend that you consider the 3 modes listed above when doing so. Instead, this guide will walk you through how to connect them to this project, and assumes you already know how to deploy / manage your custom resource(s). 
+This guide is not going to help you deploy / manage your custom resource(s), but we do recommend that you consider the 3 modes listed above when doing so. Instead, this guide will walk you through how to connect them to this project, and assumes you already know how to deploy / manage your custom resource(s).
 
 ### Adding a Cloudflare resource
 
@@ -357,9 +378,13 @@ If you're accessing them from your FE, here's how to set it up:
      readonly VITE_OAUTH_URL: string;
    }
    ```
+
 1. You can now access the value anywhere in your FE via `import.meta.env`
+
    ```tsx
-   export const SignIn = () => <a href={import.meta.env.VITE_OAUTH_URL}>Sign in</a>
+   export const SignIn = () => (
+     <a href={import.meta.env.VITE_OAUTH_URL}>Sign in</a>
+   );
    ```
 
 1. If you want to know more about this, check out the [Vite mode docs](https://vitejs.dev/guide/env-and-mode)
