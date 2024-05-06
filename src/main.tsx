@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./global.css";
 import { AppProvider } from "./components/AppProvider";
 
 const rootElement = document.getElementById("app")!;
