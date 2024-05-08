@@ -1,6 +1,12 @@
 name = "my-pages-app"
 pages_build_output_dir = "./dist"
 
+# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
+# Docs: https://developers.cloudflare.com/pages/functions/bindings/#r2-buckets
+[[r2_buckets]]
+binding = "POKEDEX"
+bucket_name = "pokedex"
+
 [dev]
 # Dev server settings. Using a fixed port here so that we can reliably set vite to proxy API requests to the wrangler
 port = 8787
@@ -17,18 +23,23 @@ port = 8787
 
 APP_MODE = 'development'
 APP_NAME = 'CSR dev'
+r2_buckets = [
+	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+]
+
 
 [env.preview.vars]
 APP_NAME = 'CSR preview'
 APP_MODE = 'preview'
+r2_buckets = [
+	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+]
 
 [env.production.vars]
 APP_MODE = 'production'
 APP_NAME = 'CSR production'
+r2_buckets = [
+	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+]
 
 
-# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
-# Docs: https://developers.cloudflare.com/pages/functions/bindings/#r2-buckets
-[[r2_buckets]]
-binding = "POKEDEX"
-bucket_name = "pokedex"
