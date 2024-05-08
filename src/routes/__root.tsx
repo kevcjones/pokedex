@@ -1,5 +1,7 @@
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { Suspense } from "react";
+import { SearchComponent } from "../components/SearchComponent";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -10,7 +12,7 @@ function RootComponent() {
     <>
       <div className="p-2 flex justify-center">
         <div className="w-full max-w-screen-md">
-          <div className="flex gap-2 text-lg">
+          <div className="flex gap-2 text-lg items-center">
             <Link
               to="/"
               activeProps={{
@@ -28,11 +30,15 @@ function RootComponent() {
             >
               Search
             </Link>
+            <div className="flex-grow"></div>
+            <SearchComponent />
           </div>
         </div>
       </div>
       <hr />
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
       <TanStackRouterDevtools position="bottom-right" />
     </>
   );

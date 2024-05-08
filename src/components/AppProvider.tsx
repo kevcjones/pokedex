@@ -1,7 +1,9 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { FC } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { routeTree } from "../routeTree.gen";
 import { ApiProvider } from "../api/ApiProvider";
+import { SearchProvider } from "./SearchQueryProvider";
 
 // Set up a Router instance
 const router = createRouter({
@@ -18,8 +20,12 @@ declare module "@tanstack/react-router" {
 
 export const AppProvider: FC = () => {
   return (
-    <ApiProvider>
-      <RouterProvider router={router} />
-    </ApiProvider>
+    <ErrorBoundary fallback={<div>On no!</div>}>
+      <ApiProvider>
+        <SearchProvider>
+          <RouterProvider router={router} />
+        </SearchProvider>
+      </ApiProvider>
+    </ErrorBoundary>
   );
 };

@@ -1,18 +1,33 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useSearch } from "../components/SearchQueryProvider";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/search")({
   component: SearchComponent,
 });
 
 function SearchComponent() {
+  const { setSearchQuery } = useSearch();
+  const navigate = useNavigate();
   const searchPokemon = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements as typeof form.elements & {
       search: HTMLInputElement;
     };
-    console.log(formElements.search.value);
+    setSearchQuery(formElements.search.value);
+    navigate({
+      to: "/pokemon",
+      search: {
+        page: 1,
+        search: formElements.search.value,
+      },
+    });
   };
+
+  useEffect(() => {
+    setSearchQuery("");
+  }, [setSearchQuery]);
 
   return (
     <div
@@ -32,6 +47,7 @@ function SearchComponent() {
             placeholder="Search for a Pokemon..."
             className="input w-full"
           />
+
           <button type="submit" className="btn btn-primary btn-block">
             Let's go
           </button>

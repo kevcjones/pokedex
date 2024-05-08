@@ -12,7 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SearchImport } from './routes/search'
-import { Route as PostsImport } from './routes/posts'
 import { Route as PokemonImport } from './routes/pokemon'
 import { Route as IndexImport } from './routes/index'
 
@@ -20,11 +19,6 @@ import { Route as IndexImport } from './routes/index'
 
 const SearchRoute = SearchImport.update({
   path: '/search',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PostsRoute = PostsImport.update({
-  path: '/posts',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -50,10 +44,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PokemonImport
       parentRoute: typeof rootRoute
     }
-    '/posts': {
-      preLoaderRoute: typeof PostsImport
-      parentRoute: typeof rootRoute
-    }
     '/search': {
       preLoaderRoute: typeof SearchImport
       parentRoute: typeof rootRoute
@@ -66,7 +56,6 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   PokemonRoute,
-  PostsRoute,
   SearchRoute,
 ])
 

@@ -21,7 +21,7 @@ function HomeComponent() {
             disposal where you can search for your favorite Pokemon and learn
             more about them.
           </p>
-          <Link to="/posts" className="btn btn-primary">
+          <Link to="/search" className="btn btn-primary">
             Find Pokemon
           </Link>
         </div>

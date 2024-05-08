@@ -1,14 +1,10 @@
+import { pokedexRouter } from "./pokedex/router";
 import { postsRouter } from "./posts/router";
-import { procedure, router } from "./trpc";
-import { z } from "zod";
+import { router } from "./trpc";
 
 export const appRouter = router({
   posts: postsRouter,
-  hello: procedure.input(z.string().nullish()).query(({ input, ctx }) => {
-    console.log("Responding to tRPC");
-
-    return `hello ${input ?? "world"} from ${ctx.APP_NAME}`;
-  }),
+  pokedex: pokedexRouter,
 });
 
 // Export only the type of a router!
