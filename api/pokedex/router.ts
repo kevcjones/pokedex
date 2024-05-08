@@ -38,12 +38,6 @@ export type PokemonModel = {
   };
 };
 
-const publicUrl = (path: string, root: string) => {
-  const publicUrl = root;
-  if (path.startsWith(".")) path = path.slice(1);
-  return `${publicUrl}${path}`;
-};
-
 const searchPokemon = (allPokemon: PokemonModel[], search: string) => {
   return allPokemon.filter((pokemon) =>
     pokemon.name.english.toLowerCase().includes(search.toLowerCase())
@@ -60,19 +54,17 @@ const paginatePokemonResults = (
   return allPokemon.slice(start, end);
 };
 
-const makePokemonImagesPublic = (pokemon: PokemonModel, root: string) => {
-  return {
-    ...pokemon,
-    image: {
-      ...pokemon.image,
-      sprite: publicUrl(pokemon.image.sprite, root),
-      thumbnail: publicUrl(pokemon.image.thumbnail, root),
-      hires: publicUrl(pokemon.image.hires, root),
-    },
-  };
-};
-
 export const pokedexRouter = router({
+  img: procedure.input(z.object({ id: z.number() })).query(async (req) => {
+    const allPokemon = await getPokedexJson(req);
+    const pokemon = allPokemon[req.input.id - 1];
+    if (!pokemon)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Pokemon not found",
+      });
+  }),
+
   find: procedure
     .input(
       z.object({
@@ -82,15 +74,7 @@ export const pokedexRouter = router({
       })
     )
     .query(async (req) => {
-      const pokedex = await req.ctx.POKEDEX.get("pokedex.json");
-      if (!pokedex)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Pokedex not found",
-        });
-
-      console.log("search", req.input.search);
-      const allPokemon = (await pokedex.json()) as PokemonModel[];
+      const allPokemon = await getPokedexJson(req);
       const filteredResults = req.input.search
         ? searchPokemon(allPokemon, req.input.search)
         : allPokemon;
@@ -98,7 +82,7 @@ export const pokedexRouter = router({
         filteredResults,
         req.input.page,
         req.input.limit
-      ).map((item) => makePokemonImagesPublic(item, req.ctx.IMG_PUBLIC_URL));
+      );
 
       return {
         pokemon: paginatedResults,
@@ -108,3 +92,15 @@ export const pokedexRouter = router({
       };
     }),
 });
+
+async function getPokedexJson(req: { ctx: { POKEDEX: R2Bucket } }) {
+  const pokedex = await req.ctx.POKEDEX.get("pokedex.json");
+  if (!pokedex)
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Pokedex not found",
+    });
+
+  const allPokemon = (await pokedex.json()) as PokemonModel[];
+  return allPokemon;
+}
