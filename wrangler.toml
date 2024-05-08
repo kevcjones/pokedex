@@ -13,12 +13,12 @@ port = 8787
 
 [env.production]
 r2_buckets = [
-	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+	{ binding = "POKEDEX", bucket_name = "pokedex" }
 ]
 
 [env.preview]
 r2_buckets = [
-	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+	{ binding = "POKEDEX", bucket_name = "pokedex" }
 ]
 
 [vars]
