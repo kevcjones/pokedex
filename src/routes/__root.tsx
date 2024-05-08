@@ -31,7 +31,7 @@ function RootComponent() {
               Search
             </Link>
             <div className="flex-grow"></div>
-            <SearchComponent />
+            {location.pathname == "/pokemon" && <SearchComponent />}
           </div>
         </div>
       </div>
