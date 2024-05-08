@@ -11,6 +11,16 @@ bucket_name = "pokedex"
 # Dev server settings. Using a fixed port here so that we can reliably set vite to proxy API requests to the wrangler
 port = 8787
 
+[env.production]
+r2_buckets = [
+	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+]
+
+[env.preview]
+r2_buckets = [
+	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
+]
+
 [vars]
 # Variables made available to API functions (but not the FE)
 # https://developers.cloudflare.com/workers/configuration/environment-variables/
@@ -23,23 +33,17 @@ port = 8787
 
 APP_MODE = 'development'
 APP_NAME = 'CSR dev'
-r2_buckets = [
-	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
-]
+
 
 
 [env.preview.vars]
 APP_NAME = 'CSR preview'
 APP_MODE = 'preview'
-r2_buckets = [
-	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
-]
+
 
 [env.production.vars]
 APP_MODE = 'production'
 APP_NAME = 'CSR production'
-r2_buckets = [
-	{ binding = "POKEDEX", bucket_name = "pokedex-DEV" }
-]
+
 
 
