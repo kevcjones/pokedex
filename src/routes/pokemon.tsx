@@ -43,6 +43,10 @@ function PokemonComponent() {
     setPage(page + 1);
   };
 
+  const imageUrl = (path: string) => {
+    return "/api/asset?path=" + path.slice(2);
+  };
+
   return (
     <div>
       <div className="p-2 flex justify-center">
@@ -58,7 +62,7 @@ function PokemonComponent() {
               <li key={p.id}>
                 <div className="rounded-md border-2 p-2">
                   <div className="flex justify-between">
-                    <img src={p.image.sprite} alt={p.name.english} />
+                    <img src={imageUrl(p.image.sprite)} alt={p.name.english} />
                     <h3 className="text-xl">{p.name.english}</h3>
                     <div>ID: {p.id}</div>
                   </div>
