@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { trpc } from "../api/api";
 import { z } from "zod";
@@ -60,13 +60,18 @@ function PokemonComponent() {
           <ul className="self-stretch">
             {allPokemonQuery.pokemon.map((p) => (
               <li key={p.id}>
-                <div className="rounded-md border-2 p-2">
-                  <div className="flex justify-between">
-                    <img src={imageUrl(p.image.sprite)} alt={p.name.english} />
-                    <h3 className="text-xl">{p.name.english}</h3>
-                    <div>ID: {p.id}</div>
+                <Link to={`/pokedata/${p.id}`}>
+                  <div className="rounded-md border-2 p-2">
+                    <div className="flex justify-between">
+                      <img
+                        src={imageUrl(p.image.sprite)}
+                        alt={p.name.english}
+                      />
+                      <h3 className="text-xl">{p.name.english}</h3>
+                      <div>ID: {p.id}</div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>
