@@ -65,6 +65,24 @@ export const pokedexRouter = router({
       });
   }),
 
+  findOne: procedure.input(z.object({ id: z.number() })).query(async (req) => {
+    const allPokemon = await getPokedexJson(req);
+    if (req.input.id < 1 || req.input.id > allPokemon.length)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Invalid Pokemon ID",
+      });
+
+    const pokemon = allPokemon[req.input.id - 1];
+    if (!pokemon)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Pokemon not found",
+      });
+
+    return pokemon;
+  }),
+
   find: procedure
     .input(
       z.object({
