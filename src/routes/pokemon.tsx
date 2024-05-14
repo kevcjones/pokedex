@@ -60,7 +60,10 @@ function PokemonComponent() {
           <ul className="self-stretch">
             {allPokemonQuery.pokemon.map((p) => (
               <li key={p.id}>
-                <Link to={`/pokedata/${p.id}`}>
+                <Link
+                  to={`/pokedata/$pokemonId`}
+                  params={{ pokemonId: p.id.toString() }}
+                >
                   <div className="rounded-md border-2 p-2">
                     <div className="flex justify-between">
                       <img
