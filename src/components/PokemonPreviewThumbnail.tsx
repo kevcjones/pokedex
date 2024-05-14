@@ -17,7 +17,7 @@ export function PokemonPreviewThumbnail({
     id: parseInt(pokemonId, 10),
   });
   return (
-    <Link to={`/pokedata/${pokemonId}`}>
+    <Link to={"/pokedata/$pokemonId"} params={{ pokemonId: pokemonId }}>
       <img src={imageUrl(p.image.thumbnail)} alt={p.name.english} />
     </Link>
   );
