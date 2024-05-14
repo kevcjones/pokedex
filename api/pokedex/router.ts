@@ -22,7 +22,8 @@ export type PokemonModel = {
   species: string;
   description: string;
   evolution: {
-    next: Array<Array<string>>;
+    prev?: Array<string>;
+    next?: Array<Array<string>>;
   };
   profile: {
     height: string;

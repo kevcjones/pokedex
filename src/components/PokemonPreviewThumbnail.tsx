@@ -11,6 +11,8 @@ export function PokemonPreviewThumbnail({
     return "/api/asset?path=" + path.slice(2);
   };
 
+  if (!pokemonId) return null;
+
   const [p] = trpc.pokedex.findOne.useSuspenseQuery({
     id: parseInt(pokemonId, 10),
   });

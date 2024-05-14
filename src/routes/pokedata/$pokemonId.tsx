@@ -45,13 +45,29 @@ function Pokedata() {
           <p>Special Attack: {p.base["Sp. Attack"]}</p>
           <p>Special Defense: {p.base["Sp. Defense"]}</p>
           <h2 className="card-title">Evolutions</h2>
-          {p.evolution.next?.map(([id, name]) => (
+          {p.evolution.prev && (
             <>
-              <h3>{name}</h3>
-              <PokemonPreviewThumbnail key={id} pokemonId={id} />
+              <h3 className="text-lg font-medium">Previous</h3>
+              <PokemonPreviewThumbnail
+                key={p.evolution.prev[0]}
+                pokemonId={p.evolution.prev[0]}
+              />
             </>
-          ))}
-          {!p.evolution.next?.length && <p>None</p>}
+          )}
+          {p.evolution.next && (
+            <>
+              <h3 className="text-lg font-medium">Next</h3>
+              {p.evolution.next?.map(([id]) => (
+                <PokemonPreviewThumbnail key={id} pokemonId={id} />
+              ))}
+            </>
+          )}
+          {!p.evolution.next?.length && (
+            <>
+              <h3 className="text-lg font-medium">Next</h3>
+              <p>None</p>
+            </>
+          )}
         </div>
       </div>
     </div>
