@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { trpc } from "../../api/api";
 import { PokemonPreviewThumbnail } from "../../components/PokemonPreviewThumbnail";
 
@@ -13,12 +13,21 @@ function Pokedata() {
     id: parseInt(pokemonId),
   });
 
+  if (!p) return <p>No pokemon found with ID={pokemonId}</p>;
+
   const imageUrl = (path: string) => {
+    if (!path) return "https://via.placeholder.com/256?text=????";
     return "/api/asset?path=" + path.slice(2);
   };
 
   return (
     <div className="flex justify-center gap-4">
+      <Link
+        to="/pokedata/$pokemonId"
+        params={{ pokemonId: String(parseInt(pokemonId) - 1) }}
+      >
+        &lt;
+      </Link>
       <div className="card card-compact w-96 bg-base-100 shadow-xl">
         <figure>
           {" "}
@@ -32,18 +41,22 @@ function Pokedata() {
       <div className="card card-compact w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title">Profile</h2>
-          <p>Type: {p.type.join(",")}</p>
+          <p>Type: {p.type ? p.type.join(",") : "Unknown"}</p>
           <p>Species: {p.species}</p>
           <p>Height: {p.profile.height}</p>
           <p>Weight: {p.profile.weight}</p>
-          <p>Egg: {p.profile.egg.join(",")}</p>
-          <h2 className="card-title">Battle stats</h2>
-          <p>Speed: {p.base.Speed}</p>
-          <p>Attack: {p.base.Attack}</p>
-          <p>Defense: {p.base.Defense}</p>
-          <p>Health points: {p.base.HP}</p>
-          <p>Special Attack: {p.base["Sp. Attack"]}</p>
-          <p>Special Defense: {p.base["Sp. Defense"]}</p>
+          <p>Egg: {p.profile.egg ? p.profile.egg.join(",") : "Unknown"}</p>
+          {p.base && (
+            <>
+              <h2 className="card-title">Battle stats</h2>
+              <p>Speed: {p.base.Speed}</p>
+              <p>Attack: {p.base.Attack}</p>
+              <p>Defense: {p.base.Defense}</p>
+              <p>Health points: {p.base.HP}</p>
+              <p>Special Attack: {p.base["Sp. Attack"]}</p>
+              <p>Special Defense: {p.base["Sp. Defense"]}</p>
+            </>
+          )}
           <h2 className="card-title">Evolutions</h2>
           {p.evolution.prev && (
             <>
@@ -70,6 +83,12 @@ function Pokedata() {
           )}
         </div>
       </div>
+      <Link
+        to="/pokedata/$pokemonId"
+        params={{ pokemonId: String(parseInt(pokemonId) + 1) }}
+      >
+        &gt;
+      </Link>
     </div>
   );
 }
