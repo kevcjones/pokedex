@@ -16,7 +16,7 @@ function Pokedata() {
   if (!p) return <p>No pokemon found with ID={pokemonId}</p>;
 
   const imageUrl = (path: string) => {
-    if (!path) return "https://via.placeholder.com/256?text=????";
+    if (!path) return "https://via.placeholder.com/256?text=?????";
     return "/api/asset?path=" + path.slice(2);
   };
 
